@@ -1,0 +1,317 @@
+function Math.init 2
+push constant 16
+call Array.new 1
+pop static 0
+push constant 1
+pop local 1
+push constant 0
+pop local 0
+label Math.while.0
+push local 0
+push constant 16
+lt
+not
+if-goto Math.whileend.0
+push static 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push local 1
+add
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto Math.while.0
+label Math.whileend.0
+push constant 0
+return
+function Math.abs 0
+push argument 0
+push constant 0
+gt
+push argument 0
+push constant 0
+eq
+or
+not
+if-goto Math.else.0
+push argument 0
+return
+goto Math.ifend.0
+label Math.else.0
+push argument 0
+neg
+return
+label Math.ifend.0
+function Math.bit 0
+push argument 0
+push static 0
+push argument 1
+add
+pop pointer 1
+push that 0
+and
+return
+function Math.multiply 4
+push constant 0
+pop local 0
+push argument 0
+pop local 1
+push constant 0
+pop local 2
+label Math.while.1
+push local 2
+push constant 16
+lt
+not
+if-goto Math.whileend.1
+push argument 1
+push local 2
+call Math.bit 2
+pop local 3
+push local 3
+push constant 0
+gt
+push local 3
+push constant 0
+lt
+or
+not
+if-goto Math.else.1
+push local 0
+push local 1
+add
+pop local 0
+goto Math.ifend.1
+label Math.else.1
+label Math.ifend.1
+push local 1
+push local 1
+add
+pop local 1
+push local 2
+push constant 1
+add
+pop local 2
+goto Math.while.1
+label Math.whileend.1
+push local 0
+return
+function Math.divide 3
+push constant 1
+pop local 1
+push argument 0
+push constant 0
+lt
+not
+if-goto Math.else.2
+push local 1
+neg
+pop local 1
+push argument 0
+call Math.abs 1
+pop argument 0
+goto Math.ifend.2
+label Math.else.2
+label Math.ifend.2
+push argument 1
+push constant 0
+lt
+not
+if-goto Math.else.3
+push local 1
+neg
+pop local 1
+push argument 1
+call Math.abs 1
+pop argument 1
+goto Math.ifend.3
+label Math.else.3
+label Math.ifend.3
+push argument 1
+push argument 0
+gt
+push argument 1
+push constant 0
+lt
+or
+not
+if-goto Math.else.4
+push constant 0
+return
+goto Math.ifend.4
+label Math.else.4
+label Math.ifend.4
+push argument 0
+push argument 1
+push argument 1
+add
+call Math.divide 2
+pop local 0
+push local 0
+push constant 0
+lt
+not
+if-goto Math.else.5
+push local 0
+call Math.abs 1
+pop local 0
+goto Math.ifend.5
+label Math.else.5
+label Math.ifend.5
+push argument 0
+push constant 2
+push local 0
+call Math.multiply 2
+push argument 1
+call Math.multiply 2
+sub
+push argument 1
+lt
+not
+if-goto Math.else.6
+push local 1
+push constant 0
+lt
+not
+if-goto Math.else.7
+push local 0
+push local 0
+add
+neg
+return
+goto Math.ifend.7
+label Math.else.7
+push local 0
+push local 0
+add
+return
+label Math.ifend.7
+goto Math.ifend.6
+label Math.else.6
+push local 1
+push constant 0
+lt
+not
+if-goto Math.else.8
+push local 0
+push local 0
+add
+push constant 1
+add
+neg
+return
+goto Math.ifend.8
+label Math.else.8
+push local 0
+push local 0
+add
+push constant 1
+add
+return
+label Math.ifend.8
+label Math.ifend.6
+function Math.sqrt 3
+push constant 7
+pop local 1
+push constant 0
+pop local 0
+label Math.while.2
+push local 1
+push constant 0
+gt
+push local 1
+push constant 0
+eq
+or
+not
+if-goto Math.whileend.2
+push local 0
+push static 0
+push local 1
+add
+pop pointer 1
+push that 0
+add
+push local 0
+push static 0
+push local 1
+add
+pop pointer 1
+push that 0
+add
+call Math.multiply 2
+pop local 2
+push local 2
+push argument 0
+lt
+push local 2
+push argument 0
+eq
+or
+push local 2
+push constant 0
+gt
+and
+not
+if-goto Math.else.9
+push local 0
+push static 0
+push local 1
+add
+pop pointer 1
+push that 0
+add
+pop local 0
+goto Math.ifend.9
+label Math.else.9
+label Math.ifend.9
+push local 1
+push constant 1
+sub
+pop local 1
+goto Math.while.2
+label Math.whileend.2
+push local 0
+return
+function Math.max 0
+push argument 0
+push argument 1
+gt
+push argument 0
+push argument 1
+eq
+or
+not
+if-goto Math.else.10
+push argument 0
+return
+goto Math.ifend.10
+label Math.else.10
+push argument 1
+return
+label Math.ifend.10
+function Math.min 0
+push argument 0
+push argument 1
+lt
+push argument 0
+push argument 1
+eq
+or
+not
+if-goto Math.else.11
+push argument 0
+return
+goto Math.ifend.11
+label Math.else.11
+push argument 1
+return
+label Math.ifend.11

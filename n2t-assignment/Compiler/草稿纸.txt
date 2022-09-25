@@ -1,0 +1,5 @@
+<class>
+  <classVarDec>
+  <subroutineDec>
+    <parameterList>
+      <varDec>

@@ -1,0 +1,94 @@
+open('x', 'r/w').readlines/writelines 读写文件
+os? os.path.splitext
+处理string? string.split(), " ".join(string), "{}".format, "%s"%'x'
+pop, push, 
+arithmatic: add, neg, sub,
+logical: lt, gt, eq; and, or, not
+SP, LCL, ARG, THIS, THAT / constant为语法规范，直接用数字 / static i用filename.i命名变量即可 / temp用RAM[5-12]，即base address为5 / pointer 为0指向THIS，为1指向THAT
+
+add
+
+@sp
+M = M-1
+A = M
+D = M
+A = A-1
+M = D + M
+
+sub  //上减下
+
+@sp
+M = M-1
+A = M
+D = M
+A = A-1
+M = M-D 
+
+push constant 7
+
+*sp = 7
+sp++
+
+@7
+D = A
+@SP
+M = M+1
+A = M-1
+M = D
+
+push local 2
+
+addr = LCL + 2
+*sp = *addr
+sp++
+
+pop local 2
+
+addr = LCL + 2
+sp--
+*addr = *sp
+
+@int(cmd[2])
+D = A
+@LCL
+M = M + D
+@SP
+M = M-1
+A = M
+D = M
+@LCL
+A = M
+M = D
+@int(cmd[2])
+D = A
+@LCL
+M = M - D
+
+pop static 5
+
+sp--
+D = *sp
+
+@filename.5
+M = D
+
+push/pop pointer 0/1
+
+*sp = THIS/THAT, sp++
+
+@THIS
+D = M
+@SP
+M = M+1
+A = M-1
+M = D
+
+sp--, THIS/THAT = *sp
+
+@SP
+M = M-1
+A = M
+D = M
+@THIS
+M = D
+

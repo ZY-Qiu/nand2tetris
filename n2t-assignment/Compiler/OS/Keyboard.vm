@@ -1,0 +1,146 @@
+function Keyboard.init 0
+push constant 24576
+pop static 0
+push constant 0
+return
+function Keyboard.keyPressed 0
+push static 0
+call Memory.peek 1
+push constant 0
+eq
+not
+if-goto Keyboard.else.0
+push constant 0
+return
+goto Keyboard.ifend.0
+label Keyboard.else.0
+push static 0
+call Memory.peek 1
+return
+label Keyboard.ifend.0
+function Keyboard.readChar 2
+label Keyboard.while.0
+call Keyboard.keyPressed 0
+push constant 0
+eq
+not
+if-goto Keyboard.whileend.0
+push constant 0
+pop local 0
+goto Keyboard.while.0
+label Keyboard.whileend.0
+call Keyboard.keyPressed 0
+pop local 1
+label Keyboard.while.1
+call Keyboard.keyPressed 0
+push constant 0
+eq
+not
+not
+if-goto Keyboard.whileend.1
+push constant 0
+pop local 0
+goto Keyboard.while.1
+label Keyboard.whileend.1
+push local 1
+call Output.printChar 1
+pop temp 0
+push local 1
+return
+function Keyboard.readLine 2
+push argument 0
+call Output.printString 1
+pop temp 0
+push constant 80
+call String.new 1
+pop local 0
+label Keyboard.while.2
+push constant 1
+neg
+not
+if-goto Keyboard.whileend.2
+call Keyboard.readChar 0
+pop local 1
+push local 1
+call String.newLine 0
+eq
+not
+if-goto Keyboard.else.1
+call Output.println 0
+pop temp 0
+push local 0
+return
+goto Keyboard.ifend.1
+label Keyboard.else.1
+push local 1
+call String.backSpace 0
+eq
+not
+if-goto Keyboard.else.2
+push local 0
+call String.eraseLastChar 1
+pop temp 0
+call Output.backSpace 0
+pop temp 0
+goto Keyboard.ifend.2
+label Keyboard.else.2
+push local 0
+push local 1
+call String.appendChar 2
+pop local 0
+label Keyboard.ifend.2
+label Keyboard.ifend.1
+goto Keyboard.while.2
+label Keyboard.whileend.2
+push local 0
+return
+function Keyboard.readInt 3
+push argument 0
+call Output.printString 1
+pop temp 0
+push constant 80
+call String.new 1
+pop local 0
+label Keyboard.while.3
+push constant 1
+neg
+not
+if-goto Keyboard.whileend.3
+call Keyboard.readChar 0
+pop local 1
+push local 1
+call String.newLine 0
+eq
+not
+if-goto Keyboard.else.3
+call Output.println 0
+pop temp 0
+push local 0
+call String.intValue 1
+pop local 2
+push local 2
+return
+goto Keyboard.ifend.3
+label Keyboard.else.3
+push local 1
+call String.backSpace 0
+eq
+not
+if-goto Keyboard.else.4
+push local 0
+call String.eraseLastChar 1
+pop temp 0
+call Output.backSpace 0
+pop temp 0
+goto Keyboard.ifend.4
+label Keyboard.else.4
+push local 0
+push local 1
+call String.appendChar 2
+pop local 0
+label Keyboard.ifend.4
+label Keyboard.ifend.3
+goto Keyboard.while.3
+label Keyboard.whileend.3
+push local 2
+return

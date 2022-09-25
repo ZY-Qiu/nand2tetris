@@ -1,0 +1,618 @@
+function Screen.init 2
+push constant 16384
+pop static 1
+push constant 16
+call Array.new 1
+pop static 2
+push constant 1
+pop local 1
+push constant 0
+pop local 0
+label Screen.while.0
+push local 0
+push constant 16
+lt
+not
+if-goto Screen.whileend.0
+push static 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push local 1
+add
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto Screen.while.0
+label Screen.whileend.0
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function Screen.clearScreen 1
+label Screen.while.1
+push local 0
+push constant 8192
+lt
+not
+if-goto Screen.whileend.1
+push static 1
+push local 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto Screen.while.1
+label Screen.whileend.1
+push constant 0
+return
+function Screen.setColor 0
+push argument 0
+pop static 0
+push constant 0
+return
+function Screen.drawPixel 2
+push constant 32
+push argument 1
+call Math.multiply 2
+push argument 0
+push constant 16
+call Math.divide 2
+add
+pop local 0
+push argument 0
+push argument 0
+push constant 16
+call Math.divide 2
+push constant 16
+call Math.multiply 2
+sub
+pop local 1
+push static 0
+push constant 0
+eq
+not
+if-goto Screen.else.0
+push static 1
+push local 0
+add
+push static 1
+push local 0
+add
+pop pointer 1
+push that 0
+push static 2
+push local 1
+add
+pop pointer 1
+push that 0
+not
+and
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto Screen.ifend.0
+label Screen.else.0
+push static 1
+push local 0
+add
+push static 1
+push local 0
+add
+pop pointer 1
+push that 0
+push static 2
+push local 1
+add
+pop pointer 1
+push that 0
+or
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label Screen.ifend.0
+push constant 0
+return
+function Screen.drawLine 7
+push argument 0
+push constant 0
+lt
+push argument 2
+push constant 511
+gt
+or
+push argument 1
+push constant 0
+lt
+or
+push argument 3
+push constant 255
+gt
+or
+not
+if-goto Screen.else.1
+push constant 8
+call Sys.error 1
+pop temp 0
+goto Screen.ifend.1
+label Screen.else.1
+label Screen.ifend.1
+push constant 0
+pop local 4
+push constant 0
+pop local 5
+push constant 0
+pop local 6
+push argument 2
+push argument 0
+sub
+pop local 0
+push argument 3
+push argument 1
+sub
+pop local 1
+push local 0
+push constant 0
+lt
+not
+if-goto Screen.else.2
+push constant 1
+neg
+pop local 2
+push local 0
+call Math.abs 1
+pop local 0
+goto Screen.ifend.2
+label Screen.else.2
+push constant 1
+pop local 2
+label Screen.ifend.2
+push local 1
+push constant 0
+lt
+not
+if-goto Screen.else.3
+push constant 1
+neg
+pop local 3
+push local 1
+call Math.abs 1
+pop local 1
+goto Screen.ifend.3
+label Screen.else.3
+push constant 1
+pop local 3
+label Screen.ifend.3
+push local 0
+push constant 0
+eq
+not
+if-goto Screen.else.4
+label Screen.while.2
+push local 5
+call Math.abs 1
+push local 1
+push constant 1
+add
+lt
+not
+if-goto Screen.whileend.2
+push argument 0
+push argument 1
+push local 5
+add
+call Screen.drawPixel 2
+pop temp 0
+push local 5
+push local 3
+add
+pop local 5
+goto Screen.while.2
+label Screen.whileend.2
+push constant 0
+return
+goto Screen.ifend.4
+label Screen.else.4
+label Screen.ifend.4
+push local 1
+push constant 0
+eq
+not
+if-goto Screen.else.5
+label Screen.while.3
+push local 4
+call Math.abs 1
+push local 0
+push constant 1
+add
+lt
+not
+if-goto Screen.whileend.3
+push argument 0
+push local 4
+add
+push argument 1
+call Screen.drawPixel 2
+pop temp 0
+push local 4
+push local 2
+add
+pop local 4
+goto Screen.while.3
+label Screen.whileend.3
+push constant 0
+return
+goto Screen.ifend.5
+label Screen.else.5
+label Screen.ifend.5
+label Screen.while.4
+push local 4
+call Math.abs 1
+push local 0
+push constant 1
+add
+lt
+push local 5
+call Math.abs 1
+push local 1
+push constant 1
+add
+lt
+and
+not
+if-goto Screen.whileend.4
+push argument 0
+push local 4
+add
+push argument 1
+push local 5
+add
+call Screen.drawPixel 2
+pop temp 0
+push local 6
+push constant 0
+lt
+not
+if-goto Screen.else.6
+push local 4
+push local 2
+add
+pop local 4
+push local 6
+push local 1
+add
+pop local 6
+goto Screen.ifend.6
+label Screen.else.6
+push local 5
+push local 3
+add
+pop local 5
+push local 6
+push local 0
+sub
+pop local 6
+label Screen.ifend.6
+goto Screen.while.4
+label Screen.whileend.4
+push constant 0
+return
+function Screen.drawRectangle 8
+push argument 0
+push argument 2
+gt
+push argument 1
+push argument 3
+gt
+or
+push argument 0
+push constant 0
+lt
+or
+push argument 2
+push constant 511
+gt
+or
+push argument 1
+push constant 0
+lt
+or
+push argument 3
+push constant 255
+gt
+or
+not
+if-goto Screen.else.7
+push constant 9
+call Sys.error 1
+pop temp 0
+goto Screen.ifend.7
+label Screen.else.7
+label Screen.ifend.7
+push constant 32
+push argument 1
+call Math.multiply 2
+push argument 0
+push constant 16
+call Math.divide 2
+add
+pop local 1
+push argument 0
+push argument 0
+push constant 16
+call Math.divide 2
+push constant 16
+call Math.multiply 2
+sub
+pop local 2
+push argument 2
+push argument 2
+push constant 16
+call Math.divide 2
+push constant 16
+call Math.multiply 2
+sub
+pop local 3
+push static 2
+push local 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+not
+pop local 4
+push static 2
+push local 3
+push constant 1
+add
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+pop local 5
+push argument 2
+push constant 16
+call Math.divide 2
+push argument 0
+push constant 16
+call Math.divide 2
+sub
+pop local 6
+push argument 1
+pop local 0
+label Screen.while.5
+push local 0
+push argument 3
+push constant 1
+add
+lt
+not
+if-goto Screen.whileend.5
+push local 1
+push local 6
+add
+pop local 7
+push local 6
+push constant 0
+eq
+not
+if-goto Screen.else.8
+push local 1
+push local 4
+push local 5
+and
+call Screen.updateLocation 2
+pop temp 0
+goto Screen.ifend.8
+label Screen.else.8
+push local 1
+push local 4
+call Screen.updateLocation 2
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+label Screen.while.6
+push local 1
+push local 7
+lt
+not
+if-goto Screen.whileend.6
+push local 1
+push constant 1
+neg
+call Screen.updateLocation 2
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto Screen.while.6
+label Screen.whileend.6
+push local 7
+push local 5
+call Screen.updateLocation 2
+pop temp 0
+label Screen.ifend.8
+push local 0
+push constant 1
+add
+pop local 0
+push local 7
+push constant 32
+add
+push local 6
+sub
+pop local 1
+goto Screen.while.5
+label Screen.whileend.5
+push constant 0
+return
+function Screen.updateLocation 0
+push static 0
+push constant 1
+neg
+eq
+not
+if-goto Screen.else.9
+push static 1
+push argument 0
+add
+push static 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push argument 1
+or
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto Screen.ifend.9
+label Screen.else.9
+push static 1
+push argument 0
+add
+push static 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push argument 1
+not
+and
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label Screen.ifend.9
+push constant 0
+return
+function Screen.drawCircle 2
+push argument 2
+push constant 181
+gt
+not
+if-goto Screen.else.10
+push constant 25
+call String.new 1
+push constant 69
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 87
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 118
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 102
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 119
+call String.appendChar 2
+push constant 33
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+goto Screen.ifend.10
+label Screen.else.10
+label Screen.ifend.10
+push argument 2
+neg
+pop local 0
+label Screen.while.7
+push local 0
+push argument 2
+push constant 1
+add
+lt
+not
+if-goto Screen.whileend.7
+push argument 2
+push argument 2
+call Math.multiply 2
+push local 0
+push local 0
+call Math.multiply 2
+sub
+call Math.sqrt 1
+pop local 1
+push argument 0
+push local 1
+sub
+push argument 1
+push local 0
+add
+push argument 0
+push local 1
+add
+push argument 1
+push local 0
+add
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto Screen.while.7
+label Screen.whileend.7
+push constant 0
+return

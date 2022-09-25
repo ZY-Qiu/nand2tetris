@@ -1,0 +1,16 @@
+如何保存return address，其必须又机器读取内存中保存的数值。
+解决方法：使用标签方法，(label), @label, D = M, push进栈中。
+
+call func 0 没有argument，导致return时pop ARG 0会破坏return address的数值。
+解决方法：在pop ARG之前先取出return address。
+
+使用递归方法时，多次调用自己，也就多次使用同一个call指令，可翻译器只遇到了call指令一次，所以用于区分“函数返回标签”的参数只增加了一次。
+解决方法：调用同一个函数，本就应该返回到同一个位置。
+
+call指令后返回的标签莫名的重复了，因为VM翻译器是顺序翻译，遇到call/return就翻译，而不会跳转过去处理完再跳回来，所以保存callee的函数名和数量都不对。
+解决方法：label不加参数，function保存名字，call的返回标签加参数
+
+一个文件中的call指令对应另一个文件中的函数时，跳转标签不对应
+解决方法：标签中指示文件的部分一律只用最终文件名
+
+将bootstrap code放至parser类之外

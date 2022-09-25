@@ -1,0 +1,44 @@
+s1 = screen = 16384
+s2 = ~0 = color
+s0 = Array.new(17) = twoToThe
+s0[0] = 1
+
+function void drawRectangle(int x1, int y1, int x2, int y2){
+l3 = x1/16
+x1rema = x1 - (x1/16 *16)
+l4 = x2/16
+x2rema = x2 - (x2/16 *16)
+l6 = ~(s0[x1rema] - 1)
+l5 = screen[x2rema + 1] - 1
+addr = y1 * 32 + x1/16
+HoriDistance = l4 - l3
+while(~(y1 > y2)) {
+l1 = addr + HoriDistance
+
+if(HoriDistance = 0) {
+call Screen.updateLocation(addr, l5 & l6)
+}
+
+else {
+call Screen.updateLocation(addr, l6)
+addr = addr+1
+while(addr<l1){
+call Screen.updateLocation(addr, -1)
+addr = addr+1
+}
+call Screen.updateLocation(l1, l5)
+}
+y1 = y1+1
+addr = l1+32 - HoriDistance
+}
+return
+}
+
+function void updateLocation(int x, int value) {
+if(color = true) {
+screen[x] =  screen[x] | value
+}
+else {
+screen[x] =  screen[x] & (~value)
+}
+}

@@ -1,0 +1,181 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * A library of functions for displaying graphics on the screen.
+ * The Hack physical screen consists of 512 rows (indexed 0..511, top to bottom)
+ * of 256 pixels each (indexed 0..255, left to right). The top left pixel on 
+ * the screen is indexed (0,0).
+ */
+class Screen {
+    static int color;
+    static array screen, twoToThe;
+
+    /** Initializes the Screen. */
+    function void init() {
+        var int i, num;
+        let screen = 16384;
+        let twoToThe = Array.new(16);
+        let num = 1;
+        let i = 0;
+        while(i<16) {
+            let twoToThe[i] = num;
+            let num = num + num;
+            let i = i + 1;
+        }
+        //do clearScreen();
+        do setColor(true);
+        return;
+    }
+
+    /** Erases the entire screen. */
+    function void clearScreen() {
+        var int i;
+        while(i<8192) {
+            let screen[i] = 0;
+            let i = i + 1;
+        }
+        return;
+    }
+
+    /** Sets the current color, to be used for all subsequent drawXXX commands.
+     *  Black is represented by true, white by false. */
+    function void setColor(boolean b) {
+        let color = b;
+        return;
+    }
+
+    /** Draws the (x,y) pixel, using the current color. */
+    function void drawPixel(int x, int y) {
+        var int address, rema;
+        let address = 32*y + (x/16);
+        let rema = x - (x/16 * 16);
+        if(color = 0) {
+            let screen[address] = screen[address]&(~twoToThe[rema]);
+        }
+        else {
+            let screen[address] = screen[address]|twoToThe[rema];
+        }
+        return;
+    }
+
+    /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
+    function void drawLine(int x1, int y1, int x2, int y2) {
+        var int dx, dy, sx, sy;
+        var int a, b, diff;
+        if(x1<0 | (x2>511) | (y1<0) | (y2>255)) {
+            do Sys.error(8);
+        }
+        let a = 0;
+        let b = 0;
+        let diff = 0;
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+
+        if(dx < 0) {
+            let sx = -1;
+            let dx = Math.abs(dx);
+        }
+        else {
+            let sx = 1;
+        }
+        if(dy < 0) {
+            let sy = -1;
+            let dy = Math.abs(dy);
+        }
+        else {
+            let sy = 1;
+        }
+
+        if(dx = 0) {
+            while(Math.abs(b) < (dy+1)) {
+                do drawPixel(x1, y1+b);
+                let b = b + sy;
+            }
+            return;
+        }
+        if(dy = 0) {
+            while(Math.abs(a) < (dx+1)) {
+                do drawPixel(x1+a, y1);
+                let a = a + sx;
+            }
+            return;
+        }
+
+        while((Math.abs(a)<(dx+1))&(Math.abs(b)<(dy+1))) {
+            do drawPixel(x1+a, y1+b);
+            if(diff < 0) {
+                let a = a + sx;
+                let diff = diff + dy;
+            }
+            else {
+                let b = b + sy;
+                let diff = diff - dx;
+            }
+        }
+        return;
+    }
+
+    /** Draws a filled rectangle whose top left corner is (x1, y1)
+     * and bottom right corner is (x2,y2), using the current color. */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+        var int i, address, X1rema, X2rema, head, tail, dis, end;
+        if(x1>x2 | (y1>y2) | (x1<0) | (x2>511) | (y1<0) | (y2>255)) {
+            do Sys.error(9);
+        }
+
+        let address = 32*y1 + (x1/16);
+        let X1rema = x1 - (x1/16 * 16);
+        let X2rema = x2 - (x2/16 * 16);
+        let head = ~(twoToThe[X1rema] - 1);
+        let tail = twoToThe[X2rema+1]-1;
+        let dis = x2/16 - (x1/16);
+        let i = y1;
+        while(i<(y2+1)) {
+            let end = address + dis;
+            if(dis = 0) {
+                do updateLocation(address, head&tail);
+            }
+            else {
+                do updateLocation(address, head);
+                let address = address + 1;
+                while(address < end) {
+                    do updateLocation(address, -1);
+                    let address = address + 1;
+                }
+                do updateLocation(end, tail);
+            }
+            let i = i + 1;
+            let address = end + 32 - dis;
+        }
+        return;
+    }
+
+    function void updateLocation(int x, int value) {
+        if(color = true) {
+            let screen[x] =  screen[x] | value;
+        }
+        else {
+            let screen[x] =  screen[x] & (~value);
+        }
+        return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) {
+        var int dy, temp;
+        if(r>181) {
+            do Output.printString("ERR: Will cause overflow!");
+            return;
+        }
+        let dy = -r;
+        while(dy<(r+1)) {
+            let temp = Math.sqrt(r*r - (dy*dy));
+            do drawLine(x-temp, y+dy, x+temp, y+dy);
+            let dy = dy+1;
+        }
+        return;
+    }
+}

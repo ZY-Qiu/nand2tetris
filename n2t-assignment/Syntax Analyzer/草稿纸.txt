@@ -1,0 +1,30 @@
+先把所有引号和括号都在字符串中分开，再根据引号位置将句子合一
+
+
+
+
+
+
+
+
+
+
+if (((y + size) < 254) & ((x + size) < 510))
+
+
+
+ifstatement
+keyword if /keyword
+symbol (
+expression
+term
+symbol (
+expression
+term
+
+
+
+1, 2, 3, 4
+1, (, 2, 3, 4
+1, (, 2, (, 3, 4
+1, (, 2, (, 3, (, 4
